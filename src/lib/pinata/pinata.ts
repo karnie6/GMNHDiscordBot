@@ -197,12 +197,9 @@ export default function usePinata() {
       pageOffset: 0,
       metadata: metadataFilter,
     };
-    
-    // const pinataResult = (await pinata.pinList(filters));
-    var pinataResult: PinataPinListResponse = {count: 0, rows: []};
 
     try{
-      pinataResult = (await pinata.pinList(filters));
+      const pinataResult = (await pinata.pinList(filters));
       return pinataResult;
     } catch(err){
       console.log("Error retrieving open tickets from pinata: ", err);
