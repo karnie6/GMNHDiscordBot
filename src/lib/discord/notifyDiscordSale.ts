@@ -1,6 +1,6 @@
 import { PNFT } from "@/lib/pinata/types";
 import Discord, { MessageEmbed, TextChannel } from "discord.js";
-
+import { DEFAULTS } from "@/globals";
 import {readDatePinned, readUserID, readMintID, readTicketName, readTicketStatus, readTicketType, generateTicketDetailLink}  from '@/lib/pinata/pnftInteractions'
 
 
@@ -20,8 +20,7 @@ export default async function notifyDiscordSale(
     test?: boolean
   ) {
 
-   // TODO: replace with full domain once finalized
-   const appUrl = "https://gmnh.vercel.app/"
+   const appUrl = DEFAULTS.APP_URL
   
     if (!client.isReady()) {
         return;

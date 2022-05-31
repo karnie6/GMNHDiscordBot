@@ -154,7 +154,7 @@ export default function usePinata() {
     */
     const pinata_result = (await searchForOpenTickets(pinataAPIFilters))
     console.log("pinata result is", pinata_result)
-    return pinata_result.count
+    return typeof pinata_result != 'undefined' ? pinata_result.count : 0
   }
 
   const retrieveOpenTicketsResultRows =  async(pinataAPIFilters?: any) => {
@@ -164,7 +164,7 @@ export default function usePinata() {
 
     */
     const pinata_result = (await searchForOpenTickets(pinataAPIFilters))
-    return pinata_result.rows
+    return typeof pinata_result != 'undefined' ? pinata_result.rows : []
   };
 
 
@@ -197,10 +197,14 @@ export default function usePinata() {
       pageOffset: 0,
       metadata: metadataFilter,
     };
-    
-    const pinataResult = (await pinata.pinList(filters));
 
-    return pinataResult
+    try{
+      const pinataResult = (await pinata.pinList(filters));
+      return pinataResult;
+    } catch(err){
+      console.log("Error retrieving open tickets from pinata: ", err);
+    }
+
   };
 
   async function convertTicketsToPNFTs(tokens: PinataPinListResponseRow[]): Promise<PNFT[]> {
