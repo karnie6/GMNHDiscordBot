@@ -35,7 +35,7 @@ export default function usePinata() {
     });
     data.append('pinataOptions', pinataOptions);
 
-    const res = await axios.post(url, data, {
+    const additionalParams = {
       maxBodyLength: 'Infinity' as any, // this is needed to prevent axios from erroring out with large files
       headers: {
         // @ts-ignore
@@ -43,8 +43,18 @@ export default function usePinata() {
         pinata_api_key: apiKey,
         pinata_secret_api_key: apiSecret,
       },
-    });
+    }
+    
+    var res = {'data': {'IpfsHash': ''}};
+
+    try {
+        res = await axios.post(url, data, additionalParams);
+    }catch(err) {
+        console.log("Error pinning FileToIPFS: ", err);
+    }
+  
     return res.data.IpfsHash;
+
   };
 
   const hashToURI = (hash: string) => `https://gateway.pinata.cloud/ipfs/${hash}`;
@@ -198,7 +208,13 @@ export default function usePinata() {
       metadata: metadataFilter,
     };
     
-    const pinataResult = (await pinata.pinList(filters));
+    var pinataResult: PinataPinListResponse = {count: 0, rows: []};
+
+    try{
+      pinataResult = await pinata.pinList(filters)
+    } catch(err){
+      console.log("Error retrieving open tickets from pinata: ", err);
+    }
 
     return pinataResult
   };
