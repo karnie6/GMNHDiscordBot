@@ -1,8 +1,8 @@
 import { PNFT } from "@/lib/pinata/types";
 import Discord, { MessageEmbed, TextChannel } from "discord.js";
+
 import {DEFAULTS} from '@/globals';
 import {readDatePinned, readUserName, readTicketName, readTicketStatus, readTicketType, generateTicketDetailLink, formatBylineTicketDatetime}  from '@/lib/pinata/pnftInteractions'
-
 
 export function generateTicketDescription(ticket: PNFT){
   /* Input: Takes in a ticket (pinata NFT metadata)
@@ -20,8 +20,7 @@ export default async function notifyDiscordSale(
     test?: boolean
   ) {
 
-   // TODO: replace with full domain once finalized
-   const appUrl = DEFAULTS.APP_URL
+const appUrl = DEFAULTS.APP_URL
   
     if (!client.isReady()) {
         console.log("Client was not ready;")
