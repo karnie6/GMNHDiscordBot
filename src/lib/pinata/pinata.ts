@@ -45,7 +45,6 @@ export default function usePinata() {
       },
     });
     return res.data.IpfsHash;
-
   };
 
   const hashToURI = (hash: string) => `https://gateway.pinata.cloud/ipfs/${hash}`;
