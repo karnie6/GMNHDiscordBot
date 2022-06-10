@@ -35,7 +35,7 @@ export default function usePinata() {
     });
     data.append('pinataOptions', pinataOptions);
 
-    const additionalParams = {
+    const res = await axios.post(url, data, {
       maxBodyLength: 'Infinity' as any, // this is needed to prevent axios from erroring out with large files
       headers: {
         // @ts-ignore
@@ -43,19 +43,7 @@ export default function usePinata() {
         pinata_api_key: apiKey,
         pinata_secret_api_key: apiSecret,
       },
-    }
-    
-    var res = {'data': {'IpfsHash': ''}};
-
-    try {
-
-        res = await axios.post(url, data, additionalParams);
-
-
-    }catch(err) {
-        console.log("Error pinning FileToIPFS: ", err);
-    }
-  
+    });
     return res.data.IpfsHash;
 
   };
